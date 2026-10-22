@@ -145,5 +145,6 @@ sequenceDiagram
 
 ## Miro
 
-- Klassendiagramm: https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764683570620898
+- Klassendiagramm V2 (aktuell): https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764688101220187
+- Klassendiagramm V1: https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764683570620898
 - Ablaufdiagramm: https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764681694670076

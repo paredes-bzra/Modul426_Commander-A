@@ -6,7 +6,8 @@ Alles rund ums Projekt, was kein Code ist.
 
 | Was | Link |
 |---|---|
-| Miro – Klassendiagramm | https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764683570620898 |
+| Miro – Klassendiagramm V2 (aktuell) | https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764688101220187 |
+| Miro – Klassendiagramm V1 | https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764683570620898 |
 | Miro – Ablaufdiagramm | https://miro.com/app/board/uXjVHwm6kzI=/?moveToWidget=3458764681694670076 |
 | Miro – ganzes Board | https://miro.com/app/board/uXjVHwm6kzI=/ |
 | Jira – aktiver Sprint (Board) | https://commander24a.atlassian.net/jira/software/projects/SCRUM/boards/1 |
