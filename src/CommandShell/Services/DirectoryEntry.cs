@@ -1,3 +1,3 @@
-﻿namespace DefaultNamespace;
+﻿namespace CommandShell.Services;
 
-public record DirectoryEntry();
+public record DirectoryEntry(string Name, bool IsDirectory);
