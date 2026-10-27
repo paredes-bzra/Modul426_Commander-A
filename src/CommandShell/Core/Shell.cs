@@ -20,6 +20,15 @@ public class Shell
         bool running = true;
         while (running)
         {
+            DisplayPromt();
+            string? input = _console.Readline();
+            if (input == null)
+            {
+                break;
+            }
+            Commandresult result = _invoker.ExecuteCommand(input);
+            _console.Writeline(result);
+            running = !result.ShouldExit;
             
         }
         
