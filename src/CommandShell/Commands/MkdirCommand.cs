@@ -16,7 +16,7 @@ public class MkdirCommand : Command
     {
         if (args.Length == 0)
         {
-            _console.WriteLine("mkdir : Ordnername fehlt");
+            _console.WriteLine("mkdir: Ordnername fehlt");
             return CommandResult.Error;
         }
         
