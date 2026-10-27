@@ -12,11 +12,14 @@ public class CommandInvoker
 
     public CommandInvoker(Parser parser, IFileSystemService fileSystem, IConsoleService console)
     {
+        _parser = parser;
+        _fileSystem = fileSystem;
+        _console = console;
        
     }
 
     public CommandResult ExecuteCommand(string input)
     {
-    
+        
     }
 }
