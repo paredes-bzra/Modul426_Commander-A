@@ -20,18 +20,21 @@ public class Shell
         bool running = true;
         while (running)
         {
-            DisplayPromt();
-            string? input = _console.Readline();
+            DisplayPrompt();
+            string? input = _console.ReadLine();
             if (input == null)
             {
                 break;
             }
-            Commandresult result = _invoker.ExecuteCommand(input);
-            _console.Writeline(result);
+
+            CommandResult result = _invoker.ExecuteCommand(input);
+            if (!string.IsNullOrEmpty(result.OutputMessage))
+            {
+                _console.WriteLine(result.OutputMessage);
+            }
+
             running = !result.ShouldExit;
-            
         }
-        
     }
 
     private void DisplayPrompt()
