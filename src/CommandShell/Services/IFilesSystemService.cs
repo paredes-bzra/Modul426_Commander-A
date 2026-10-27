@@ -1,6 +1,6 @@
 ﻿namespace CommandShell.Services;
 
-public class IFilesSystemService : IFileSystemService
+public interface IFileSystemService
 {
     bool FileExists(string path);
     bool DirectoryExists(string path);
@@ -8,5 +8,6 @@ public class IFilesSystemService : IFileSystemService
     void WriteAllText(string path, string content);
     void DeleteFile(string path);
     void CreateDirectory(string path);
+    void DeleteDirectory(string path);
     IEnumerable<DirectoryEntry> GetEntries(string path);
 }
