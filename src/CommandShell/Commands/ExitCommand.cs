@@ -1,14 +1,21 @@
-namespace DefaultNamespace;
+using CommandShell.Core;
+using CommandShell.Services;
 
-IFileSystem iFileSystem = new IFileSystem();
+namespace CommandShell.Commands;
 
 public class ExitCommand : Command
 {
-    private readonly IFileSystem _iFileSystem;
-    private readonly IConsoleService _iConsoleService;
-
-    public ExitCommand(IFileSystem iFileSystem, IConsoleService iConsoleService)
+    public ExitCommand(IFileSystemService fileService, IConsoleService consoleService)
+        : base(fileService, consoleService)
     {
-    iFileSystem = _iFileSytem
+    }
+
+    public override string Name => "exit";
+
+    public override string Description => "Beendet die Shell.";
+
+    public override CommandResult Execute(CommandContext context)
+    {
+        return CommandResult.Exit();
     }
 }

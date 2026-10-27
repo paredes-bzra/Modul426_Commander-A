@@ -15,17 +15,17 @@ public class CommandInvoker
         _parser = parser;
         _fileSystem = fileSystem;
         _console = console;
-       
     }
 
     public CommandResult ExecuteCommand(string input)
     {
         CommandContext context = _parser.Parse(input);
-        if (!context.IsNullOrEmpty== true)
+        if (string.IsNullOrWhiteSpace(context.CommandName))
         {
             return CommandResult.Ok();
         }
-        Command command = CommandFactory.Create(context, _console, _fileSystem);
+
+        Command command = CommandFactory.Create(context.CommandName, _fileSystem, _console);
         return command.Execute(context);
     }
 }
