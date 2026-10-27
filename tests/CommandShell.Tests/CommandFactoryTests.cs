@@ -1,7 +1,6 @@
 ﻿using CommandShell.Commands;
 using CommandShell.Factory;
-
-namespace CommandShell.Tests;
+using CommandShell.Tests.Fakes;
 
 public class CommandFactoryTests
 {
