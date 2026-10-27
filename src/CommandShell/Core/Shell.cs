@@ -39,6 +39,7 @@ public class Shell
 
     private void DisplayPrompt()
     {
-        _console.Write("> ");
+        string path = Directory.GetCurrentDirectory();
+        _console.Write(path+ "> ");
     }
 }

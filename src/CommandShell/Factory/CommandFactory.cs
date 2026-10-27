@@ -5,10 +5,10 @@ namespace CommandShell.Factory;
 
 public static class CommandFactory
 {
-    // Neuer Befehl: eine Zeile eintragen { "name", (f, c) => new XyCommand(f, c) }
     private static readonly Dictionary<string, Func<IFileSystemService, IConsoleService, Command>> Commands =
         new(StringComparer.OrdinalIgnoreCase)
         {
+            //für jeden neuen Command das hier machen
             { "exit", (f, c) => new ExitCommand(f, c) },
             { "mkdir", (f, c) => new MkdirCommand(f, c) },
             { "md", (f, c) => new MkdirCommand(f, c) },
