@@ -20,6 +20,12 @@ public class CommandInvoker
 
     public CommandResult ExecuteCommand(string input)
     {
-        
+        CommandContext context = _parser.Parse(input);
+        if (!context.IsNullOrEmpty== true)
+        {
+            return CommandResult.Ok();
+        }
+        Command command = CommandFactory.Create(context, _console, _fileSystem);
+        return command.Execute(context);
     }
 }

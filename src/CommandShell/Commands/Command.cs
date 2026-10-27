@@ -1,6 +1,6 @@
 ﻿namespace CommandShell.Core;
 
-public class Command
+public class abstract Command
 {
     
 }
