@@ -5,17 +5,20 @@ namespace CommandShell.Commands;
 
 public class UnknownCommand : Command
 {
-    public UnknownCommand(IFileSystemService fileService, IConsoleService consoleService)
+    private readonly string _name;
+
+    public UnknownCommand(string name, IFileSystemService fileService, IConsoleService consoleService)
         : base(fileService, consoleService)
     {
+        _name = name;
     }
 
-    public override string Name => "unknown";
+    public override string Name => _name;
 
-    public override string Description => "Wird verwendet, wenn der Befehl unbekannt ist.";
+    public override string Description => "Unbekannter Befehl.";
 
     public override CommandResult Execute(CommandContext context)
     {
-        return CommandResult.Error($"\"{context.CommandName}\" wird nicht als interner oder externer Befehl erkannt.");
+        return CommandResult.Error($"Der Befehl \"{_name}\" ist entweder falsch geschrieben oder konnte nicht gefunden werden.");
     }
 }

@@ -1,33 +1,34 @@
-﻿using CommandShell.Services;
-namespace CommandShell.Core;
+﻿using CommandShell.Core;
+using CommandShell.Services;
+
+namespace CommandShell.Commands;
 
 public class MkdirCommand : Command
 {
-    private readonly IFileSystemService _fileSystem;
-    private readonly IConsoleService _console;
-    
-    public MkdirCommand(IFileSystemService fileSystem, IConsoleService console)
-        {
-        _fileSystem = fileSystem;
-        _console = console;
-        }
-
-    public override CommandResult Execute(string[] args)
+    public MkdirCommand(IFileSystemService fileService, IConsoleService consoleService)
+        : base(fileService, consoleService)
     {
-        if (args.Length == 0)
-        {
-            _console.WriteLine("mkdir : Ordnername fehlt");
-            return CommandResult.Error;
-        }
-        
-        var path = args[0];
+    }
 
-        if (_fileSystem.DirectoryExists(path))
+    public override string Name => "mkdir";
+
+    public override string Description => "Erstellt einen Ordner.";
+
+    public override CommandResult Execute(CommandContext context)
+    {
+        if (context.Arguments.Count == 0)
         {
-            _console.WriteLine($"mkdir: '{path}' existiert bereits");
-            return CommandResult.Error;
+            return CommandResult.Error("Syntax: mkdir <Ordnername>");
         }
-        _fileSystem.CreateDirectory(path);
-        return CommandResult.Success;
+
+        string path = context.Arguments[0];
+
+        if (FileService.DirectoryExists(path))
+        {
+            return CommandResult.Error($"Ein Unterverzeichnis oder eine Datei mit dem Namen \"{path}\" existiert bereits.");
+        }
+
+        FileService.CreateDirectory(path);
+        return CommandResult.Ok();
     }
 }
