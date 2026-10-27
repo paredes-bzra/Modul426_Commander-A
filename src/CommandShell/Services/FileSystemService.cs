@@ -11,13 +11,13 @@ public class FileSystemService : IFileSystemService
     public void DeleteDirectory(string path) => Directory.Delete(path, true);
     
     
-    public IEnumerable<DirectoryEntry> GetEntries(string path)
-    {
-        var dirs = DirectoryEntry.GetDirecotries(path)
-            .Selected(d => new DirectoryEntry(path.GetFileName(d), true));
-        var files = DirectoryEntry.GetFiles(path)
-            .Select(f => new DirectoryEntry(path.GetFileName(f), true));
-        return dirs.Concat(files);
-    }
+	public IEnumerable<DirectoryEntry> GetEntries(string path)
+	{
+    	var dirs = Directory.GetDirectories(path)
+        	.Select(d => new DirectoryEntry(Path.GetFileName(d), true));
+    	var files = Directory.GetFiles(path)
+        	.Select(f => new DirectoryEntry(Path.GetFileName(f), false));
+    	return dirs.Concat(files);
+	}
 }
 
