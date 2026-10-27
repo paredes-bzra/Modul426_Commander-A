@@ -8,7 +8,7 @@ public class FakeConsoleService : IConsoleService
 
 	public void Write(string text) => Output.Add(text);
 	public void WriteLine(string text) => Output.Add(text);
-	public string? ReadLine() => Input.Count > 0 Input.Dequeue() : null;
+	public string? ReadLine() => Input.Count > 0 ? Input.Dequeue() : null;
 	public void Clear() => Output.Clear();
 
 }

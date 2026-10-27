@@ -3,7 +3,7 @@ namespace CommandShell.Tests.Fakes;
 
 public class FakeFileSystemService : IFileSystemService
 {
-    public Dictionary<sting, string> Files {get;} = new();
+  	public Dictionary<string, string> Files {get;} = new();
 	public HashSet<string> Directories {get;} = new();
 
 	public bool FileExists(string path) => Files.ContainsKey(path);
