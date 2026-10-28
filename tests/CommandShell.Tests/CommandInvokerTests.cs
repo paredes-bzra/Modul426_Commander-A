@@ -3,18 +3,19 @@ using CommandShell.Tests.Fakes;
 
 namespace CommandShell.Tests;
 
+[TestClass]
 public class CommandInvokerTests
 {
     private readonly CommandInvoker _invoker =
         new(new Parser(), new FakeFileSystemService(), new FakeConsoleService());
 
-    [Fact]
+    [TestMethod]
     public void ExecuteCommand_UnknownCommand_ReturnsError()
     {
    
     }
 
-    [Fact]
+    [TestMethod]
     public void ExecuteCommand_EmptyInput_DoesNothing()
     {
    
