@@ -9,7 +9,11 @@ public class FileSystemService : IFileSystemService
     public void DeleteFile(string path) => File.Delete(path);
     public void CreateDirectory(string path) => Directory.CreateDirectory(path);
     public void DeleteDirectory(string path) => Directory.Delete(path, true);
-    public string CurrentDirectory => Directory.GetCurrentDirectory();
+    public string CurrentDirectory
+    {
+	    get => Directory.GetCurrentDirectory();
+	    set => Directory.SetCurrentDirectory(value);
+    }
     
     
 	public IEnumerable<DirectoryEntry> GetEntries(string path)

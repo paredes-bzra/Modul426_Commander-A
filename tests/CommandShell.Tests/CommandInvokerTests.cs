@@ -13,8 +13,11 @@ public class CommandInvokerTests
     [TestMethod]
     public void ExecuteCommand_UnknownCommand_ReturnsError()
     {
+        //Arrange
         CommandResult result =_invoker.ExecuteCommand("abc");
+        //Act
         Assert.IsFalse(result.Success);
+        //Assert
         Assert.Contains("abc",result.OutputMessage);
     }
 
