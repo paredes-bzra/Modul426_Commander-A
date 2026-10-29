@@ -30,6 +30,6 @@ public class VerCommandTests
     {
         CommandResult result = _invoker.ExecuteCommand("ver");
         
-        Assert.StartsWith("Microsoft Windows[Version",result.OutputMessage);
+        Assert.StartsWith("Microsoft Windows [Version", result.OutputMessage);
     }
 }
