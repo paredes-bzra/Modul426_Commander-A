@@ -3,9 +3,10 @@ using CommandShell.Tests.Fakes;
 
 namespace CommandShell.Tests;
 
+[TestClass]
 public class ShellTests
 {
-    [Fact]
+    [TestMethod]
     public void Run_UnknownCommand_PrintsErrorAndKeepsRunning()
     {
         

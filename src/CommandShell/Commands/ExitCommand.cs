@@ -5,6 +5,7 @@ namespace CommandShell.Commands;
 
 public class ExitCommand : Command
 {
+    //Konstruktor
     public ExitCommand(IFileSystemService fileService, IConsoleService consoleService)
         : base(fileService, consoleService)
     {

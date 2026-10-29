@@ -2,9 +2,10 @@
 using CommandShell.Factory;
 using CommandShell.Tests.Fakes;
 
+[TestClass]
 public class CommandFactoryTests
 {
-    [Fact]
+    [TestMethod]
     public void CreateCommand_UnknownCommand_ReturnsUnknownCommand()
     {
         var fileService = new FakeFileSystemService();
@@ -13,7 +14,7 @@ public class CommandFactoryTests
      
         var command = CommandFactory.Create("gibtsnicht", fileService, consoleService);
         
-        Assert.IsType<UnknownCommand>(command);
+        Assert.IsInstanceOfType(command, typeof(UnknownCommand));
     }
 
 }

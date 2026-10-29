@@ -3,6 +3,8 @@ namespace CommandShell.Tests.Fakes;
 
 public class FakeFileSystemService : IFileSystemService
 {
+    public string CurrentDirectory { get; set; } = @"C:\Users\Test";
+
   	public Dictionary<string, string> Files {get;} = new();
 	public HashSet<string> Directories {get;} = new();
 

@@ -2,11 +2,12 @@
 
 namespace CommandShell.Tests;
 
+[TestClass]
 public class ParserTests
 {
     private readonly Parser _parser = new();
 
-    [Fact]
+    [TestMethod]
     public void Given_Dir_When_Parse_Then_NameIsDirWithoutArgumentsAndSwitches()
     {
         // Arrange
@@ -16,12 +17,12 @@ public class ParserTests
         CommandContext context = _parser.Parse(input);
 
         // Assert
-        Assert.Equal("dir", context.CommandName);
-        Assert.Empty(context.Arguments);
-        Assert.Empty(context.Switches);
+        Assert.AreEqual("dir", context.CommandName);
+        Assert.AreEqual(0, context.Arguments.Count);
+        Assert.AreEqual(0, context.Switches.Count);
     }
 
-    [Fact]
+    [TestMethod]
     public void Given_MoveWithSwitch_When_Parse_Then_OneSwitchAndTwoArguments()
     {
         // Arrange
@@ -31,12 +32,12 @@ public class ParserTests
         CommandContext context = _parser.Parse(input);
 
         // Assert
-        Assert.Equal("move", context.CommandName);
-        Assert.Equal(new[] { "/y" }, context.Switches);
-        Assert.Equal(new[] { @"C:\Daten\a.txt", @"C:\Archiv" }, context.Arguments);
+        Assert.AreEqual("move", context.CommandName);
+        CollectionAssert.AreEqual(new[] { "/y" }, context.Switches.ToList());
+        CollectionAssert.AreEqual(new[] { @"C:\Daten\a.txt", @"C:\Archiv" }, context.Arguments.ToList());
     }
 
-    [Fact]
+    [TestMethod]
     public void Given_CdWithQuotes_When_Parse_Then_OneArgumentWithSpace()
     {
         // Arrange
@@ -46,11 +47,11 @@ public class ParserTests
         CommandContext context = _parser.Parse(input);
 
         // Assert
-        Assert.Equal("cd", context.CommandName);
-        Assert.Equal(new[] { "Meine Dateien" }, context.Arguments);
+        Assert.AreEqual("cd", context.CommandName);
+        CollectionAssert.AreEqual(new[] { "Meine Dateien" }, context.Arguments.ToList());
     }
 
-    [Fact]
+    [TestMethod]
     public void Given_ManySpaces_When_Parse_Then_SpacesAreIgnored()
     {
         // Arrange
@@ -60,11 +61,11 @@ public class ParserTests
         CommandContext context = _parser.Parse(input);
 
         // Assert
-        Assert.Equal("cd", context.CommandName);
-        Assert.Equal(new[] { ".." }, context.Arguments);
+        Assert.AreEqual("cd", context.CommandName);
+        CollectionAssert.AreEqual(new[] { ".." }, context.Arguments.ToList());
     }
 
-    [Fact]
+    [TestMethod]
     public void Given_EmptyInput_When_Parse_Then_NameIsEmpty()
     {
         // Arrange
@@ -74,8 +75,8 @@ public class ParserTests
         CommandContext context = _parser.Parse(input);
 
         // Assert
-        Assert.Equal(string.Empty, context.CommandName);
-        Assert.Empty(context.Arguments);
-        Assert.Empty(context.Switches);
+        Assert.AreEqual(string.Empty, context.CommandName);
+        Assert.AreEqual(0, context.Arguments.Count);
+        Assert.AreEqual(0, context.Switches.Count);
     }
 }
