@@ -6,21 +6,26 @@ namespace CommandShell.Tests;
 [TestClass]
 public class ShellTests
 {
-    private readonly Shell _shell =
-        new(new CommandInvoker(new Parser(), new FakeFileSystemService(), new FakeConsoleService()), new FakeConsoleService(), new FakeFileSystemService());
     private readonly FakeFileSystemService _fakeFileSystemService = new FakeFileSystemService();
     private readonly FakeConsoleService _consoleService = new FakeConsoleService();
+    private Shell _shell = null!;
+
+    [TestInitialize]
+    public void Setup()
+    {
+        _shell = new Shell(new CommandInvoker(new Parser(), _fakeFileSystemService, _consoleService), _consoleService, _fakeFileSystemService);
+    }
 
     [TestMethod]
     public void Run_ShowsCurrentDirectoryInPrompt()
     {
         //Arrange
-        _fakeFileSystemService.CreateDirectory(@":\Temp");
-        
+        _fakeFileSystemService.CurrentDirectory = @"C:\Temp";
+
         //Act
         _shell.Run();
         //Assert
-        Assert.IsTrue(_consoleService.Output.Contains("Current Directory:"));
-        
+        Assert.AreEqual(@"C:\Temp> ", _consoleService.Output[0]);
+
     }
 }
