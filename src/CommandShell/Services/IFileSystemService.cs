@@ -10,5 +10,5 @@ public interface IFileSystemService
     void CreateDirectory(string path);
     void DeleteDirectory(string path);
     IEnumerable<DirectoryEntry> GetEntries(string path);
-    string CurrentDirectory { get; }
+    string CurrentDirectory { get; set; }
 }
