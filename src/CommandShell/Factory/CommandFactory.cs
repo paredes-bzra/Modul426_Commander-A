@@ -12,6 +12,7 @@ public static class CommandFactory
             { "exit", (f, c) => new ExitCommand(f, c) },
             { "mkdir", (f, c) => new MkdirCommand(f, c) },
             { "md", (f, c) => new MkdirCommand(f, c) },
+            { "cls", (f, c) => new ClsCommand(f, c) },
         };
 
     public static Command Create(string name, IFileSystemService fileService, IConsoleService consoleService)
