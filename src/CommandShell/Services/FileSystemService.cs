@@ -21,7 +21,7 @@ public class FileSystemService : IFileSystemService
     	var dirs = Directory.GetDirectories(path)
         	.Select(d => new DirectoryEntry(Path.GetFileName(d), true));
     	var files = Directory.GetFiles(path)
-        	.Select(f => new DirectoryEntry(Path.GetFileName(f), false));
+		    .Select(f => new DirectoryEntry(Path.GetFileName(f), false, new FileInfo(f).Length));
     	return dirs.Concat(files);
 	}
 }
