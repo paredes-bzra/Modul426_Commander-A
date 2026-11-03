@@ -23,9 +23,11 @@ public class DirCommand : Command
         {
             return CommandResult.Ok("Keine Dateien gefunden.");
         }
-
+        
         var lines = entries
-            .Select(e => e.IsDirectory ? $"<DIR>  {e.Name}" : $"       {e.Name}")
+            .Select(e => e.IsDirectory
+                ? $"<DIR>  {e.Name}"
+                : $"{e.Size,10} Bytes  {e.Name}")
             .ToList();
 
         var dirCount = entries.Count(e => e.IsDirectory);
