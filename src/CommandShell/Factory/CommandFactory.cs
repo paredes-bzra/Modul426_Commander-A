@@ -1,4 +1,4 @@
-﻿using CommandShell.Commands;
+using CommandShell.Commands;
 using CommandShell.Services;
 
 namespace CommandShell.Factory;
@@ -10,6 +10,8 @@ public static class CommandFactory
         {
             //für jeden neuen Command das hier machen
             { "exit", (f, c) => new ExitCommand(f, c) },
+            { "rename", (f, c) => new RenCommand(f, c) },
+            { "ren", (f, c) => new RenCommand(f, c) },
             { "mkdir", (f, c) => new MkdirCommand(f, c) },
             { "md", (f, c) => new MkdirCommand(f, c) },
             { "cls", (f, c) => new ClsCommand(f, c) },
