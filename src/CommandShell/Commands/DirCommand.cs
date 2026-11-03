@@ -4,7 +4,6 @@ using CommandShell.Services;
 namespace CommandShell.Commands;
 
 public class DirCommand : Command
-
 {
     public DirCommand(IFileSystemService fileService, IConsoleService consoleService)
         : base(fileService, consoleService)
@@ -21,16 +20,28 @@ public class DirCommand : Command
 
         if (entries.Count == 0)
         {
-            return CommandResult.Ok("Keine Dateien gefunden.");
+            return CommandResult.Ok("Keine Dateien gefunden.\nGesamtgrösse: 0 Bytes");
         }
 
+        
         var lines = entries
-            .Select(e => e.IsDirectory ? $"<DIR>  {e.Name}" : $"       {e.Name}")
+            .Select(e => e.IsDirectory
+                ? $"<DIR>  {e.Name}"
+                : $"{e.Size,10} Bytes  {e.Name}")
             .ToList();
 
+        
         var dirCount = entries.Count(e => e.IsDirectory);
         var fileCount = entries.Count - dirCount;
+
+        
+        long totalSize = entries
+            .Where(e => !e.IsDirectory)
+            .Sum(e => e.Size);
+
+        
         lines.Add($"{fileCount} Datei(en), {dirCount} Ordner");
+        lines.Add($"Gesamtgrösse: {totalSize} Bytes");
 
         return CommandResult.Ok(string.Join(Environment.NewLine, lines));
     }

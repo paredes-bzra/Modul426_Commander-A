@@ -16,6 +16,7 @@ public static class CommandFactory
             { "cd", (fs, console) => new CdCommand(fs, console) },
             {"ver", (fs, console) => new VerCommand(fs, console) },
             {"dir", (fs, console) => new DirCommand(fs, console) },
+            {"color", (f, c) => new ColorCommand(f, c) },
         };
 
     public static Command Create(string name, IFileSystemService fileService, IConsoleService consoleService)
