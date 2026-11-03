@@ -17,6 +17,22 @@ public class ColorCommand : Command
 
     public override CommandResult Execute(CommandContext context)
     {
+
+        if (context.Arguments.Count == 1 && (context.Arguments[0] == "help" || context.Arguments[0] == "/help"))
+        {
+            ConsoleService.WriteLine("COLOR [xy]  (x = Hintergrund, y = Text)");
+            ConsoleService.WriteLine("");
+            ConsoleService.WriteLine("0 = Schwarz      8 = Grau");
+            ConsoleService.WriteLine("1 = Blau         9 = Hellblau");
+            ConsoleService.WriteLine("2 = Grün         A = Hellgrün");
+            ConsoleService.WriteLine("3 = Türkis       B = Helltürkis");
+            ConsoleService.WriteLine("4 = Rot          C = Hellrot");
+            ConsoleService.WriteLine("5 = Lila         D = Helllila");
+            ConsoleService.WriteLine("6 = Gelb         E = Hellgelb");
+            ConsoleService.WriteLine("7 = Hellgrau     F = Weiß");
+            return CommandResult.Ok();
+        }
+
         if (context.Arguments.Count == 0)
         {
             ConsoleService.ResetColor();
