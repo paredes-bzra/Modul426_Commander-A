@@ -7,4 +7,7 @@ public interface IConsoleService
     string? ReadLine();
     void Clear();
     
+    void SetColor(ConsoleColor background, ConsoleColor foreground);
+    void ResetColor();
+    
 }
