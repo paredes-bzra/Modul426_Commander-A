@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CommandShell.Tests;
 
 [TestClass]
-public class ExitCommandTest
+public class ExitCommandTests
 {
     private readonly CommandInvoker _invoker =
         new(new Parser(), new FakeFileSystemService(), new FakeConsoleService());
