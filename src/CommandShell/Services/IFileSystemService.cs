@@ -1,4 +1,4 @@
-﻿namespace CommandShell.Services;
+namespace CommandShell.Services;
 
 public interface IFileSystemService
 {
@@ -11,4 +11,6 @@ public interface IFileSystemService
     void DeleteDirectory(string path);
     IEnumerable<DirectoryEntry> GetEntries(string path);
     string CurrentDirectory { get; set; }
+
+    void Rename(string path, string newName);
 }

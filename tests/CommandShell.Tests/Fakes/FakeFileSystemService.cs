@@ -1,4 +1,4 @@
-﻿using CommandShell.Services;
+using CommandShell.Services;
 namespace CommandShell.Tests.Fakes;
 
 public class FakeFileSystemService : IFileSystemService
@@ -29,5 +29,68 @@ public class FakeFileSystemService : IFileSystemService
             .Where(f => f.StartsWith(prefix) && !f[prefix.Length..].Contains('/'))
             .Select(f => new DirectoryEntry(f[prefix.Length..], false));
         return dirs.Concat(files);
+    }
+
+    public void Rename(string path, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(path) ||
+            string.IsNullOrWhiteSpace(newName) ||
+            newName == "." || newName == ".." ||
+            newName.Contains('/') || newName.Contains('\\'))
+        {
+            throw new ArgumentException("Ungültiger Name.");
+        }
+
+        int separator = Math.Max(
+            path.LastIndexOf('/'),
+            path.LastIndexOf('\\'));
+
+        string target = path[..(separator + 1)] + newName;
+
+        if (Files.ContainsKey(target) ||
+            Directories.Contains(target))
+        {
+            throw new IOException("Das Ziel existiert bereits.");
+        }
+
+        if (Files.TryGetValue(path, out var content))
+        {
+            Files.Remove(path);
+            Files[target] = content;
+            return;
+        }
+
+        if (Directories.Contains(path))
+        {
+            var childDirs = Directories
+                .Where(d => d.StartsWith(path + "/") ||
+                            d.StartsWith(path + "\\"))
+                .ToList();
+
+            var childFiles = Files
+                .Where(f => f.Key.StartsWith(path + "/") ||
+                            f.Key.StartsWith(path + "\\"))
+                .ToList();
+
+            Directories.Remove(path);
+            Directories.Add(target);
+
+            foreach (var directory in childDirs)
+            {
+                Directories.Remove(directory);
+                Directories.Add(
+                    target + directory[path.Length..]);
+            }
+
+            foreach (var file in childFiles)
+            {
+                Files.Remove(file.Key);
+                Files[target + file.Key[path.Length..]] = file.Value;
+            }
+
+            return;
+        }
+
+        throw new FileNotFoundException("Quelle nicht gefunden.");
     }
 }
