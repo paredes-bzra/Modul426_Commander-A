@@ -1,4 +1,6 @@
-﻿using CommandShell.Services;
+﻿using System;
+using System.Collections.Generic;
+using CommandShell.Services;
 namespace CommandShell.Tests.Fakes;
 
 public class FakeConsoleService : IConsoleService

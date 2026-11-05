@@ -2,15 +2,27 @@ using CommandShell.FileSystem;
 
 namespace CommandShell.Services;
 
-// Eigenes Dateisystem im Speicher. Ersetzt die echte Festplatte.
 public class VirtualFileSystemService : IFileSystemService
 {
     private readonly VirtualDirectory root;
     private VirtualDirectory current;
+    private readonly IFileSystemStorage? storage;
+    public string? LoadWarning { get; private set; }
 
-    public VirtualFileSystemService()
+    public VirtualFileSystemService(IFileSystemStorage? storage = null)
     {
-        root = new VirtualDirectory { Name = "C:" };
+        this.storage = storage;
+
+        try
+        {
+            root = storage?.Load() ?? new VirtualDirectory { Name = "C:" };
+        }
+        catch(InvalidDataException)
+        {
+            LoadWarning = "Die Speicherdatei ist beschädigt. Dies Shell startet mit leerem C:\\";
+            root = new VirtualDirectory { Name = "C:" };
+        }
+
         current = root;
     }
 
@@ -80,7 +92,6 @@ public class VirtualFileSystemService : IFileSystemService
 
     public void CreateDirectory(string path)
     {
-        // wie Resolve, aber fehlende Ordner werden unterwegs angelegt (mkdir Projekte\2026)
         VirtualDirectory folder = StartsAtRoot(path) ? root : current;
 
         foreach (string part in SplitPath(path))
@@ -124,8 +135,7 @@ public class VirtualFileSystemService : IFileSystemService
         {
             throw new IOException("Das Laufwerk kann nicht gelöscht werden.");
         }
-
-        // steht man gerade im gelöschten Ordner (oder darunter), zurück zum Parent
+        
         if (IsInside(current, folder))
         {
             current = folder.Parent;
@@ -149,8 +159,7 @@ public class VirtualFileSystemService : IFileSystemService
                 item is TextFile ? item.GetSize() : 0))
             .ToList();
     }
-
-    // Macht aus einem Pfad (relativ, absolut, mit ..) das Item im Baum. null = gibt es nicht.
+    
     private FileSystemItem? Resolve(string path)
     {
         FileSystemItem item = StartsAtRoot(path) ? root : current;
@@ -180,8 +189,7 @@ public class VirtualFileSystemService : IFileSystemService
         }
         return item;
     }
-
-    // "Daten\notiz.txt" → Ordner "Daten" und name = "notiz.txt"
+    
     private VirtualDirectory GetParentFolder(string path, out string name)
     {
         string trimmed = path.TrimEnd('\\', '/');
@@ -210,8 +218,7 @@ public class VirtualFileSystemService : IFileSystemService
         }
         return path.Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
     }
-
-    // Der Root heisst "C:", als Pfad wird aber "C:\" angezeigt
+    
     private string GetPath(VirtualDirectory folder)
     {
         return folder == root ? root.Name + "\\" : folder.GetFullPath();
@@ -230,10 +237,9 @@ public class VirtualFileSystemService : IFileSystemService
         }
         return false;
     }
-
-    // Wird nach jeder Änderung aufgerufen.
-    // SCRUM-29: hier kommt später storage.Save(root) hin.
+    
     private void Changed()
     {
+        storage?.Save(root);
     }
 }
