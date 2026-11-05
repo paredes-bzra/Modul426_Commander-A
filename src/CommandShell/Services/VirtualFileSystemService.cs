@@ -232,4 +232,41 @@ public class VirtualFileSystemService : IFileSystemService
     private void Changed()
     {
     }
+
+    public void Rename(string path, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(path) ||
+            string.IsNullOrWhiteSpace(newName) ||
+            newName == "." || newName == ".." ||
+            newName.IndexOfAny(new[] { '/', '\\', ':', '*', '?', '"', '<', '>', '|' }) >= 0)
+        {
+            throw new ArgumentException("Ungültiger Name.");
+        }
+
+        FileSystemItem? item = Resolve(path);
+
+        if (item == null)
+        {
+            throw new FileNotFoundException("Quelle nicht gefunden.");
+        }
+
+        VirtualDirectory? parent = item.Parent;
+
+        if (parent == null)
+        {
+            throw new IOException("Das Hauptverzeichnis kann nicht umbenannt werden.");
+        }
+
+        FileSystemItem? existing = parent.GetChild(newName);
+
+        if (existing != null && existing != item)
+        {
+            throw new IOException("Das Ziel existiert bereits.");
+        }
+
+        item.Name = newName;
+        item.LastModified = DateTime.Now;
+
+        Changed();
+    }
 }
