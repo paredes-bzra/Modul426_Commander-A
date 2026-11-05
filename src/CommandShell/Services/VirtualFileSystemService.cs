@@ -2,15 +2,27 @@ using CommandShell.FileSystem;
 
 namespace CommandShell.Services;
 
-
 public class VirtualFileSystemService : IFileSystemService
 {
     private readonly VirtualDirectory root;
     private VirtualDirectory current;
+    private readonly IFileSystemStorage? storage;
+    public string? LoadWarning { get; private set; }
 
-    public VirtualFileSystemService()
+    public VirtualFileSystemService(IFileSystemStorage? storage = null)
     {
-        root = new VirtualDirectory { Name = "C:" };
+        this.storage = storage;
+
+        try
+        {
+            root = storage?.Load() ?? new VirtualDirectory { Name = "C:" };
+        }
+        catch(InvalidDataException)
+        {
+            LoadWarning = "Die Speicherdatei ist beschädigt. Dies Shell startet mit leerem C:\\";
+            root = new VirtualDirectory { Name = "C:" };
+        }
+
         current = root;
     }
 
@@ -226,11 +238,10 @@ public class VirtualFileSystemService : IFileSystemService
         }
         return false;
     }
-
     
-    // SCRUM-29: hier kommt später storage.Save(root) hin.
     private void Changed()
     {
+        storage?.Save(root);
     }
 
     public void Rename(string path, string newName)
