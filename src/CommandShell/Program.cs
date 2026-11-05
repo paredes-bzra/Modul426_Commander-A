@@ -8,7 +8,7 @@ public static class Program
     public static void Main(string[] args)
     {
         IConsoleService console = new ConsoleService();
-        IFileSystemService fileSystem = new FileSystemService();
+        IFileSystemService fileSystem = new VirtualFileSystemService();
 
         var invoker = new CommandInvoker(new Parser(), fileSystem, console);
         var shell = new Shell(invoker, console, fileSystem);
