@@ -1,4 +1,4 @@
-﻿using CommandShell.Services;
+using CommandShell.Services;
 namespace CommandShell.Tests.Fakes;
 
 public class FakeConsoleService : IConsoleService
@@ -21,5 +21,5 @@ public class FakeConsoleService : IConsoleService
 		Foreground = foreground;
 	}
 
-	public void ResetColor() => SetColor(ConsoleColor.Black, ConsoleColor.Gray);
+	public void ResetColor() => SetColor(ConsoleColor.Black, ConsoleColor.White);
 }
