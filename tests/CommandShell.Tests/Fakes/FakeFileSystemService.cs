@@ -1,4 +1,4 @@
-﻿using CommandShell.Services;
+using CommandShell.Services;
 namespace CommandShell.Tests.Fakes;
 
 public class FakeFileSystemService : IFileSystemService
@@ -29,5 +29,71 @@ public class FakeFileSystemService : IFileSystemService
             .Where(f => f.StartsWith(prefix) && !f[prefix.Length..].Contains('/'))
             .Select(f => new DirectoryEntry(f[prefix.Length..], false));
         return dirs.Concat(files);
+    }
+
+    public void Rename(string path, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(path) ||
+            string.IsNullOrWhiteSpace(newName) ||
+            newName == "." || newName == ".." ||
+            newName.IndexOfAny(new[] { '/', '\\', ':', '*', '?', '"', '<', '>', '|' }) >= 0)
+        {
+            throw new ArgumentException("Ungültiger Name.");
+        }
+
+        string oldPath = path.TrimEnd('/', '\\');
+        int separator = oldPath.LastIndexOfAny(new[] { '/', '\\' });
+        string target = oldPath[..(separator + 1)] + newName;
+
+        if (Files.Keys.Any(f => string.Equals(f, target, StringComparison.OrdinalIgnoreCase)) ||
+            Directories.Any(d => string.Equals(d, target, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new IOException("Das Ziel existiert bereits.");
+        }
+
+        if (Files.TryGetValue(oldPath, out string? content))
+        {
+            Files.Remove(oldPath);
+            Files[target] = content;
+            return;
+        }
+
+        if (Directories.Contains(oldPath))
+        {
+            var folders = Directories
+                .Where(d => d == oldPath ||
+                            d.StartsWith(oldPath + "/") ||
+                            d.StartsWith(oldPath + "\\"))
+                .ToList();
+
+            var files = Files
+                .Where(f => f.Key.StartsWith(oldPath + "/") ||
+                            f.Key.StartsWith(oldPath + "\\"))
+                .ToList();
+
+            foreach (string folder in folders)
+            {
+                Directories.Remove(folder);
+            }
+
+            foreach (var file in files)
+            {
+                Files.Remove(file.Key);
+            }
+
+            foreach (string folder in folders)
+            {
+                Directories.Add(target + folder[oldPath.Length..]);
+            }
+
+            foreach (var file in files)
+            {
+                Files[target + file.Key[oldPath.Length..]] = file.Value;
+            }
+
+            return;
+        }
+
+        throw new FileNotFoundException("Quelle nicht gefunden.");
     }
 }

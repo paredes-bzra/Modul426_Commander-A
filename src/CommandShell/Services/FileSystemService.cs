@@ -1,4 +1,4 @@
-﻿namespace CommandShell.Services;
+namespace CommandShell.Services;
 
 public class FileSystemService : IFileSystemService
 {
@@ -24,5 +24,45 @@ public class FileSystemService : IFileSystemService
 		    .Select(f => new DirectoryEntry(Path.GetFileName(f), false, new FileInfo(f).Length));
     	return dirs.Concat(files);
 	}
+
+    public void Rename(string path, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(path) ||
+            string.IsNullOrWhiteSpace(newName) ||
+            newName == "." || newName == ".." ||
+            newName.IndexOfAny(new[] { '/', '\\', ':', '*', '?', '"', '<', '>', '|' }) >= 0)
+        {
+            throw new ArgumentException("Ungültiger Name.");
+        }
+
+        string source = Path.GetFullPath(path);
+        string? parent = Path.GetDirectoryName(source);
+
+        if (parent == null)
+        {
+            throw new IOException("Ungültiger Pfad.");
+        }
+
+        string target = Path.Combine(parent, newName);
+
+        if (File.Exists(target) || Directory.Exists(target))
+        {
+            throw new IOException("Das Ziel existiert bereits.");
+        }
+
+        if (File.Exists(source))
+        {
+            File.Move(source, target);
+            return;
+        }
+
+        if (Directory.Exists(source))
+        {
+            Directory.Move(source, target);
+            return;
+        }
+
+        throw new FileNotFoundException("Quelle nicht gefunden.");
+    }
 }
 
