@@ -14,7 +14,7 @@ public class FakeConsoleService : IConsoleService
 	public string? ReadLine() => Input.Count > 0 ? Input.Dequeue() : null;
 	public void Clear() => Output.Clear();
 	public ConsoleColor Background { get; private set; } = ConsoleColor.Black;
-	public ConsoleColor Foreground { get; private set; } = ConsoleColor.Gray;
+	public ConsoleColor Foreground { get; private set; } = ConsoleColor.White;
 	
 
 	public void SetColor(ConsoleColor background, ConsoleColor foreground)
@@ -23,5 +23,5 @@ public class FakeConsoleService : IConsoleService
 		Foreground = foreground;
 	}
 
-	public void ResetColor() => SetColor(ConsoleColor.Black, ConsoleColor.Gray);
+	public void ResetColor() => SetColor(ConsoleColor.Black, ConsoleColor.White);
 }
