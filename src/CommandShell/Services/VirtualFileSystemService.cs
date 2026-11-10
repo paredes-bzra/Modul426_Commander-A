@@ -1,28 +1,20 @@
+using CommandShell.Core;
 using CommandShell.FileSystem;
 
 namespace CommandShell.Services;
 
 public class VirtualFileSystemService : IFileSystemService
 {
+    private readonly ShellContext context;
+    private readonly IShellContextStorage? storage;
     private readonly VirtualDirectory root;
     private VirtualDirectory current;
-    private readonly IFileSystemStorage? storage;
-    public string? LoadWarning { get; private set; }
 
-    public VirtualFileSystemService(IFileSystemStorage? storage = null)
+    public VirtualFileSystemService(ShellContext? context = null, IShellContextStorage? storage = null)
     {
+        this.context = context ?? ShellContext.CreateDefault();
         this.storage = storage;
-
-        try
-        {
-            root = storage?.Load() ?? new VirtualDirectory { Name = "C:" };
-        }
-        catch(InvalidDataException)
-        {
-            LoadWarning = "Die Speicherdatei ist beschädigt. Dies Shell startet mit leerem C:\\";
-            root = new VirtualDirectory { Name = "C:" };
-        }
-
+        root = this.context.Root;
         current = root;
     }
 
@@ -92,7 +84,6 @@ public class VirtualFileSystemService : IFileSystemService
 
     public void CreateDirectory(string path)
     {
-        // wie Resolve, aber fehlende Ordner werden unterwegs angelegt (mkdir Projekte\2026)
         VirtualDirectory folder = StartsAtRoot(path) ? root : current;
 
         foreach (string part in SplitPath(path))
@@ -241,7 +232,7 @@ public class VirtualFileSystemService : IFileSystemService
     
     private void Changed()
     {
-        storage?.Save(root);
+        storage?.Save(context);
     }
 
     public void Rename(string path, string newName)

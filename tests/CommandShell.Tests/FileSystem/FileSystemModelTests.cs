@@ -11,7 +11,6 @@ public class FileSystemModelTests
     [TestInitialize]
     public void Setup()
     {
-        // C:\Daten
         _root = new VirtualDirectory { Name = "C:" };
         _daten = new VirtualDirectory { Name = "Daten" };
         _root.AddChild(_daten);
@@ -118,9 +117,9 @@ public class FileSystemModelTests
     public void GetSize_DirectoryWithSubfolder_ReturnsSumOfAllFiles()
     {
         // Arrange
-        _daten.AddChild(new TextFile("a.txt", _daten, DateTime.Now, "Hallo"));    // 5
-        _daten.AddChild(new TextFile("b.txt", _daten, DateTime.Now, "Welt!"));    // 5
-        _root.AddChild(new TextFile("c.txt", _root, DateTime.Now, "123"));        // 3
+        _daten.AddChild(new TextFile("a.txt", _daten, DateTime.Now, "Hallo"));
+        _daten.AddChild(new TextFile("b.txt", _daten, DateTime.Now, "Welt!"));
+        _root.AddChild(new TextFile("c.txt", _root, DateTime.Now, "123"));
 
         // Act
         long size = _root.GetSize();
