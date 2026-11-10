@@ -7,16 +7,20 @@ public class Shell
     private readonly CommandInvoker _invoker;
     private readonly IConsoleService _console;
     private readonly IFileSystemService _fileSystem;
+    private readonly ShellContext _context;
 
-    public Shell(CommandInvoker invoker, IConsoleService console, IFileSystemService fileSystem)
+    public Shell(CommandInvoker invoker, IConsoleService console, IFileSystemService fileSystem, ShellContext context)
     {
         _invoker = invoker;
         _console = console;
         _fileSystem = fileSystem;
+        _context = context;
     }
 
     public void Run()
     {
+        _console.SetColor(_context.BackgroundColor, _context.ForegroundColor);
+
         bool running = true;
         while (running)
         {
@@ -39,7 +43,6 @@ public class Shell
 
     private void DisplayPrompt()
     {
-        
-        _console.Write(_fileSystem.CurrentDirectory+ "> ");
+        _console.Write(_fileSystem.CurrentDirectory + "> ");
     }
 }
