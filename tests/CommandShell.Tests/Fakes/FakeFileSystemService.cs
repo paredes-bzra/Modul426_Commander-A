@@ -96,4 +96,24 @@ public class FakeFileSystemService : IFileSystemService
 
         throw new FileNotFoundException("Quelle nicht gefunden.");
     }
+
+    public void Move(string source, string destination)
+    {
+        if (!Files.TryGetValue(source, out string? content))
+        {
+            throw new FileNotFoundException("Quelle nicht gefunden.");
+        }
+
+        string target = Directories.Contains(destination)
+            ? destination.TrimEnd('/', '\\') + "\\" + Path.GetFileName(source)
+            : destination;
+
+        if (Files.ContainsKey(target))
+        {
+            throw new IOException("Das Ziel existiert bereits.");
+        }
+
+        Files.Remove(source);
+        Files[target] = content;
+    }
 }
