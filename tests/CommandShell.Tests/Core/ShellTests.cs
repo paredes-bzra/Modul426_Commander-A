@@ -13,7 +13,8 @@ public class ShellTests
     [TestInitialize]
     public void Setup()
     {
-        _shell = new Shell(new CommandInvoker(new Parser(), _fakeFileSystemService, _consoleService), _consoleService, _fakeFileSystemService);
+        var invoker = new CommandInvoker(new Parser(), _fakeFileSystemService, _consoleService);
+        _shell = new Shell(invoker, _consoleService, _fakeFileSystemService, ShellContext.CreateDefault());
     }
 
     [TestMethod]
