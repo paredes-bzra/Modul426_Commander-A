@@ -271,4 +271,45 @@ public class VirtualFileSystemService : IFileSystemService
 
         Changed();
     }
+
+    public void Move(string source, string destination)
+    {
+        FileSystemItem? item = Resolve(source);
+        if (item == null)
+        {
+            throw new FileNotFoundException("Quelle nicht gefunden.");
+        }
+
+        if (item.Parent == null)
+        {
+            throw new IOException("Das Laufwerk kann nicht verschoben werden.");
+        }
+
+        VirtualDirectory targetFolder;
+        string newName;
+        if(Resolve(destination)is VirtualDirectory existingFolder)
+        {
+            targetFolder = existingFolder.Parent;
+            newName = item.Name;
+        }
+        else
+        {
+            targetFolder = GetParentFolder(destination, out newName);
+        }
+        
+        if (targetFolder.GetChild(newName) != null)
+        {
+            throw new IOException($"\"{newName}\" existiert bereits.");
+        }
+        if (item is VirtualDirectory folder && IsInside(targetFolder, folder))
+        {
+            throw new IOException("Ein Ordner kann nicht in sich selbst verschoben werden.");
+        }
+        
+        item.Parent.RemoveChild(item);
+        item.Name = newName;
+        targetFolder.AddChild(item);
+        Changed();
+
+    }
 }

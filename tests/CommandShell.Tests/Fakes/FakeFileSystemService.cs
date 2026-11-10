@@ -96,4 +96,9 @@ public class FakeFileSystemService : IFileSystemService
 
         throw new FileNotFoundException("Quelle nicht gefunden.");
     }
+
+    public void Move(string source, string destination)
+    {
+        File.Move(source, destination);
+    }
 }

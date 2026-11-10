@@ -13,4 +13,6 @@ public interface IFileSystemService
     string CurrentDirectory { get; set; }
 
     void Rename(string path, string newName);
+    
+    void Move(string source, string destination);
 }
