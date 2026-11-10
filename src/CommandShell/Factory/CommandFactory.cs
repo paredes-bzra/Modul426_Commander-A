@@ -20,6 +20,7 @@ public static class CommandFactory
             {"dir", (fs, console) => new DirCommand(fs, console) },
             {"color", (f, c) => new ColorCommand(f, c) },   
             {"del",  (f, c) => new DelCommand(f, c) },
+            { "type", (f, c) => new TypeCommand(f, c) },
         };
 
     public static Command Create(string name, IFileSystemService fileService, IConsoleService consoleService)
