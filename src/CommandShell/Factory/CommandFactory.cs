@@ -23,8 +23,8 @@ public static class CommandFactory
             { "type", (f, c) => new TypeCommand(f, c) },
             { "mkfile", (f, c) => new MkfileCommand(f, c) },
             { "more", (f, c) => new MoreCommand(f, c) },
-            { "move", (f, c) => new MoveCommand(f, c) }
-            
+            { "move", (f, c) => new MoveCommand(f, c) },
+            { "help", (f, c) => new HelpCommand(f, c) },
         };
 
     public static Command Create(string name, IFileSystemService fileService, IConsoleService consoleService)
