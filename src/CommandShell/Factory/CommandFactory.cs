@@ -21,6 +21,7 @@ public static class CommandFactory
             {"color", (f, c) => new ColorCommand(f, c) },   
             {"del",  (f, c) => new DelCommand(f, c) },
             { "type", (f, c) => new TypeCommand(f, c) },
+            { "mkfile", (f, c) => new MkfileCommand(f, c) },
         };
 
     public static Command Create(string name, IFileSystemService fileService, IConsoleService consoleService)
