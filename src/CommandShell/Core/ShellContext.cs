@@ -8,6 +8,8 @@ public class ShellContext
     public ConsoleColor ForegroundColor { get; set; }
     public ConsoleColor BackgroundColor { get; set; }
 
+    public string CurrentDirectory { get; set; } = "C:\\";
+
     public static ShellContext CreateDefault()
     {
         return new ShellContext

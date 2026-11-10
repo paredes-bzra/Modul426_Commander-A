@@ -25,6 +25,8 @@ public class JsonShellContextStorage : IShellContextStorage
         public ConsoleColor ForegroundColor { get; set; }
         public ConsoleColor BackgroundColor { get; set; }
         public NodeDto Root { get; set; } = new();
+        
+        public string CurrentDirectory { get; set; } = "C:\\";
     }
 
     private class NodeDto
@@ -59,6 +61,7 @@ public class JsonShellContextStorage : IShellContextStorage
 
             return new ShellContext
             {
+                CurrentDirectory = dto.CurrentDirectory,
                 Root = root,
                 ForegroundColor = dto.ForegroundColor,
                 BackgroundColor = dto.BackgroundColor
@@ -74,6 +77,7 @@ public class JsonShellContextStorage : IShellContextStorage
     {
         var dto = new ContextDto
         {
+            CurrentDirectory = context.CurrentDirectory,
             ForegroundColor = context.ForegroundColor,
             BackgroundColor = context.BackgroundColor,
             Root = ToDto(context.Root)

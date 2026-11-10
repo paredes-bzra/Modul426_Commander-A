@@ -16,6 +16,10 @@ public class VirtualFileSystemService : IFileSystemService
         this.storage = storage;
         root = this.context.Root;
         current = root;
+        if (Resolve(this.context.CurrentDirectory) is VirtualDirectory saved)
+        {
+            current = saved;
+        }
     }
 
     public string CurrentDirectory
@@ -28,6 +32,7 @@ public class VirtualFileSystemService : IFileSystemService
                 throw new DirectoryNotFoundException(value);
             }
             current = folder;
+            Changed();
         }
     }
 
@@ -232,6 +237,7 @@ public class VirtualFileSystemService : IFileSystemService
     
     private void Changed()
     {
+        context.CurrentDirectory = GetPath(current);
         storage?.Save(context);
     }
 
