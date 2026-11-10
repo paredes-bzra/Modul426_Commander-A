@@ -21,14 +21,7 @@ public class MoveCommand : Command
             return CommandResult.Error("Syntax: move <Quelle> <Ziel>");
         }
 
-        try
-        {
-            FileService.Move(context.Arguments[0], context.Arguments[1]);
-            return CommandResult.Ok();
-        }
-        catch (Exception ex)
-        {
-            return CommandResult.Error($"Verschieben fehlgeschlagen: {ex.Message}");
-        }
+        FileService.Move(context.Arguments[0], context.Arguments[1]);
+        return CommandResult.Ok();
     }
 }

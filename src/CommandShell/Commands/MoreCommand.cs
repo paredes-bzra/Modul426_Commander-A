@@ -31,64 +31,56 @@ public class MoreCommand : Command
 
         string path = context.Arguments[0];
 
-        try
-        {
-            if (FileService.DirectoryExists(path))
-            {
-                return CommandResult.Error(
-                    $"\"{path}\" ist ein Ordner.");
-            }
-
-            if (!FileService.FileExists(path))
-            {
-                return CommandResult.Error(
-                    $"Datei nicht gefunden: {path}");
-            }
-
-            string content = FileService.ReadAllText(path);
-
-            using var reader = new StringReader(content);
-
-            int lineCount = 0;
-            string? line;
-
-            while ((line = reader.ReadLine()) != null)
-            {
-                ConsoleService.WriteLine(line);
-                lineCount++;
-
-                if (lineCount == PageSize && reader.Peek() != -1)
-                {
-                    while (true)
-                    {
-                        ConsoleService.Write("-- Mehr --");
-
-                        string? input = ConsoleService.ReadLine();
-
-                        if (input == null ||
-                            input.Trim().Equals(
-                                "q",
-                                StringComparison.OrdinalIgnoreCase))
-                        {
-                            return CommandResult.Ok();
-                        }
-
-                        if (string.IsNullOrWhiteSpace(input))
-                        {
-                            break;
-                        }
-                    }
-
-                    lineCount = 0;
-                }
-            }
-
-            return CommandResult.Ok();
-        }
-        catch (Exception ex)
+        if (FileService.DirectoryExists(path))
         {
             return CommandResult.Error(
-                $"Datei konnte nicht gelesen werden: {ex.Message}");
+                $"\"{path}\" ist ein Ordner.");
         }
+
+        if (!FileService.FileExists(path))
+        {
+            return CommandResult.Error(
+                $"Datei nicht gefunden: {path}");
+        }
+
+        string content = FileService.ReadAllText(path);
+
+        using var reader = new StringReader(content);
+
+        int lineCount = 0;
+        string? line;
+
+        while ((line = reader.ReadLine()) != null)
+        {
+            ConsoleService.WriteLine(line);
+            lineCount++;
+
+            if (lineCount == PageSize && reader.Peek() != -1)
+            {
+                while (true)
+                {
+                    ConsoleService.Write("-- Mehr --");
+
+                    string? input = ConsoleService.ReadLine();
+
+                    if (input == null ||
+                        input.Trim().Equals(
+                            "q",
+                            StringComparison.OrdinalIgnoreCase))
+                    {
+                        return CommandResult.Ok();
+                    }
+
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        break;
+                    }
+                }
+
+                lineCount = 0;
+            }
+        }
+
+        return CommandResult.Ok();
     }
 }

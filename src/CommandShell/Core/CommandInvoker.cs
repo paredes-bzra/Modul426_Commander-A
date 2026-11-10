@@ -26,6 +26,13 @@ public class CommandInvoker
         }
 
         Command command = CommandFactory.Create(context.CommandName, _fileSystem, _console);
-        return command.Execute(context);
+        try
+        {
+            return command.Execute(context);
+        }
+        catch (Exception ex)
+        {
+            return CommandResult.Error($"Fehler: {ex.Message}");
+        }
     }
 }

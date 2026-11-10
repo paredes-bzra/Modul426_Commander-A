@@ -28,28 +28,18 @@ public class TypeCommand : Command
 
         string path = context.Arguments[0];
 
-        try
-        {
-            if (FileService.DirectoryExists(path))
-            {
-                return CommandResult.Error(
-                    $"\"{path}\" ist ein Ordner.");
-            }
-
-            if (!FileService.FileExists(path))
-            {
-                return CommandResult.Error(
-                    $"Datei nicht gefunden: {path}");
-            }
-
-            string content = FileService.ReadAllText(path);
-
-            return CommandResult.Ok(content);
-        }
-        catch (Exception ex)
+        if (FileService.DirectoryExists(path))
         {
             return CommandResult.Error(
-                $"Datei konnte nicht gelesen werden: {ex.Message}");
+                $"\"{path}\" ist ein Ordner.");
         }
+
+        if (!FileService.FileExists(path))
+        {
+            return CommandResult.Error(
+                $"Datei nicht gefunden: {path}");
+        }
+
+        return CommandResult.Ok(FileService.ReadAllText(path));
     }
 }

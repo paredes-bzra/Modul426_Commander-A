@@ -21,15 +21,14 @@ namespace CommandShell.Commands
                 return CommandResult.Ok(FileService.CurrentDirectory);
             }
 
-            string input = string.Join(" ", context.Arguments);
-            string newPath = Path.GetFullPath(Path.Combine(FileService.CurrentDirectory, input));
+            string path = string.Join(" ", context.Arguments);
 
-            if (!FileService.DirectoryExists(newPath))
+            if (!FileService.DirectoryExists(path))
             {
                 return CommandResult.Error("Das System kann den angegebenen Pfad nicht finden.");
             }
 
-            FileService.CurrentDirectory = newPath;
+            FileService.CurrentDirectory = path;
             return CommandResult.Ok();
         }
     }

@@ -31,7 +31,7 @@ public class Parser
             }
         }
 
-        return new CommandContext(commandName, arguments, switches, rawInput);
+        return new CommandContext(commandName, arguments, switches);
     }
 
     private List<string> SplitIntoTokens(string input)

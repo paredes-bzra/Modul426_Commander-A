@@ -21,9 +21,6 @@ public abstract class FileSystemItem
 
     public string GetFullPath()
     {
-        if (Parent == null)
-            return Name;
-        
         return Parent == null ? Name : Parent.GetFullPath() + "\\" + Name;
     }
 

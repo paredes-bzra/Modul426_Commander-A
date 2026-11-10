@@ -25,18 +25,7 @@ public class RenCommand : Command
                 "Syntax: ren <AlterName> <NeuerName>");
         }
 
-        string alterName = context.Arguments[0];
-        string neuerName = context.Arguments[1];
-
-        try
-        {
-            FileService.Rename(alterName, neuerName);
-            return CommandResult.Ok();
-        }
-        catch (Exception ex)
-        {
-            return CommandResult.Error(
-                $"Umbenennen fehlgeschlagen: {ex.Message}");
-        }
+        FileService.Rename(context.Arguments[0], context.Arguments[1]);
+        return CommandResult.Ok();
     }
 }

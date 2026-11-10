@@ -1,4 +1,5 @@
 using CommandShell.Core;
+using CommandShell.Services;
 using CommandShell.Tests.Fakes;
 
 namespace CommandShell.Tests;
@@ -27,5 +28,15 @@ public class CommandInvokerTests
         CommandResult result = _invoker.ExecuteCommand("");
         Assert.IsTrue(result.Success);
         Assert.Contains( "",result.OutputMessage);
+    }
+
+    [TestMethod]
+    public void ExecuteCommand_CommandThrows_ReturnsErrorInsteadOfCrash()
+    {
+        var invoker = new CommandInvoker(new Parser(), new VirtualFileSystemService(), new FakeConsoleService());
+
+        CommandResult result = invoker.ExecuteCommand(@"mkfile Gibtsnicht\notiz.txt Hallo");
+
+        Assert.IsFalse(result.Success);
     }
 }

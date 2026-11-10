@@ -1,5 +1,3 @@
-using CommandShell.FileSystem;
-
 namespace CommandShell.FileSystem;
 
 
@@ -22,6 +20,7 @@ public class  VirtualDirectory: FileSystemItem
     public void RemoveChild(FileSystemItem child)
     {
         children.Remove(child);
+        child.Parent = null;
     }
 
     public FileSystemItem? GetChild(string name)
