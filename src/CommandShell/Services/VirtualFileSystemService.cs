@@ -289,7 +289,7 @@ public class VirtualFileSystemService : IFileSystemService
         string newName;
         if(Resolve(destination)is VirtualDirectory existingFolder)
         {
-            targetFolder = existingFolder.Parent;
+            targetFolder = existingFolder;
             newName = item.Name;
         }
         else
